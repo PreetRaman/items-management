@@ -32,4 +32,4 @@ ng serve
 ### Project Structure
 Project Structure
 - **src/app**: Contains all the Angular components, services, and models.
-- **src/assets**: Contains static files like images or stylesheets.
+- **src/assets**: Contains static files like images or json files.

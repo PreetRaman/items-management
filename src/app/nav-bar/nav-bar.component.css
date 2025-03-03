@@ -1,0 +1,45 @@
+.nav-icon {
+    display: flex;
+    align-items: center;
+
+    img {
+        height: 40px;
+        width: 40px;
+        filter: invert(98%) sepia(1%) saturate(6889%) hue-rotate(192deg) brightness(116%) contrast(100%);
+    }
+
+    p {
+        color: white;
+        width: 10px;
+        margin-left: 10px;
+    }
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    width: 100%;
+   
+  }
+  
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+  }
+  
+  .nav-links a.active {
+    border-bottom: 2px solid white;
+  }
+  
+  .user-switch {
+    label {
+        color: white;
+    }
+
+    select {
+        padding: 5px;
+      }
+  }

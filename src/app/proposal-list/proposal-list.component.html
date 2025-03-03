@@ -1,0 +1,87 @@
+<div class="container">
+  <h2>Proposal Management</h2>
+  <p class="user-info">Managing proposals for: <strong>{{ getUserInfo() }}</strong></p>
+
+  <div class="section create-proposal-section" *ngIf="selectedItem">
+    <h3>Create Proposal</h3>
+
+    <div>
+      <h4>Selected Item: {{ selectedItem.name }}</h4>
+    </div>
+
+    <div class="proposal-form">
+      <h5>Propose Cost Sharing</h5>
+      <div *ngFor="let ownerId of selectedItem.ownerIds" class="form-group">
+        <label>Party {{ ownerId }} pays:</label>
+        <input type="number" [(ngModel)]="newProposalRatios[ownerId]" min="0">
+      </div>
+      <textarea [(ngModel)]="newProposalMessage" placeholder="Optional message"></textarea>
+      <button class="submit-btn" (click)="createProposal()"> Submit Proposal</button>
+    </div>
+  </div>
+
+  <div class="section proposals-section">
+    <h3><i class="fas fa-file-alt"></i> Existing Proposals</h3>
+  
+    <ul class="proposal-list">
+      <li *ngFor="let proposal of proposals">
+        <h4>Proposal for {{ getItemName(proposal.itemId) }}</h4>
+        <p>Created At: {{ proposal.createdAt | date:'short' }}</p>
+  
+        <strong>Payment Ratios:</strong>
+        <ul>
+          <li *ngFor="let party of proposal.paymentRatios | keyvalue">
+            {{ getOwnerNames(party.key) }}: {{ party.value }}%
+          </li>
+        </ul>
+  
+        <!-- Show proposal creator's name if they belong to the current user's party -->
+        <p *ngIf="proposal.proposedBy === currentUser?.id">
+          Created by: {{ currentUser?.name }}
+        </p>
+  
+        <!-- Show accepted by names(parties) if the party matches -->
+        <div *ngIf="isProposalFullyAccepted(proposal)">
+          <p *ngFor="let partyId of proposal.acceptedBy">
+            <span *ngIf="partyId === currentUser?.partyId">Accepted by: {{ getUserNameByPartyId(partyId) }}</span>
+          </p>
+        </div>
+  
+        <!-- Show accept/reject buttons if proposal is not accepted yet -->
+        <div class="actions" *ngIf="!acceptedProposals[proposal.id]">
+          <button class="accept-btn" (click)="acceptProposal(proposal.id)">
+            <i class="fas fa-check-circle"></i> Accept
+          </button>
+          <button class="reject-btn" (click)="openCounterProposalForm(proposal)">
+            <i class="fas fa-times-circle"></i> Reject & Counter
+          </button>
+        </div>
+  
+        <!-- Notification if proposal is accepted by all -->
+        <div *ngIf="isProposalFullyAccepted(proposal)" class="accepted-notification">
+          <i class="fas fa-check-circle icon-style"></i> This proposal has been accepted by all parties.
+        </div>
+      </li>
+    </ul>
+  </div>  
+
+  <div *ngIf="counterProposalActive && selectedProposal">
+    <h3>
+      <i class="fas fa-sync-alt"></i> Submit a Counter-Proposal for {{ getItemName(selectedProposal.itemId) }}
+    </h3>
+
+    <div *ngFor="let partyId of getPaymentParties(selectedProposal)">
+      <label>Party {{ partyId }} pays:</label>
+      <input type="number" [(ngModel)]="counterRatios[partyId]" min="0">
+    </div>
+
+    <textarea [(ngModel)]="counterMessage" placeholder="Message (required)"></textarea>
+
+    <button class="submit-btn" (click)="submitCounterProposal()">
+      <i class="fas fa-paper-plane"></i> Submit Counter-Proposal
+    </button>
+    <button class="cancel-btn" (click)="cancelCounterProposal()">
+      <i class="fas fa-times-circle"></i> Cancel
+    </button>
+  </div>
+</div>

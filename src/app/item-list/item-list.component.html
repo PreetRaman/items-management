@@ -1,0 +1,21 @@
+<div class="item-container">
+  <h2 *ngIf="currentUser">Items for {{ currentUser.name }} ({{ getOwnerNames([currentUser.partyId]) }})</h2>
+  <div class="search-bar">
+    <input type="text" [(ngModel)]="searchQuery" (input)="loadItems()" placeholder="Search items..">
+    <select [(ngModel)]="sortBy" (change)="sortItems()">
+      <option value="name">Sort by Name</option>
+      <option value="cost">Sort by Cost</option>
+    </select>
+  </div>
+  <ul class="item-list">
+    <li *ngFor="let item of filteredItems">
+      <div class="item-info">
+        <h3>{{ item.name }}</h3>
+        <p>{{ item.description }}</p>
+        <p><strong>Cost:</strong> ${{ item.totalCost }}</p>
+        <p><strong>Owned by:</strong> {{ getOwnerNames(item.ownerIds) }}</p>
+        <span *ngIf="isShared(item.ownerIds)" class="shared-label">Shared</span><br>      
+        <button class="btn-primary" (click)="createProposal(item)">Create Proposal</button>      </div>
+    </li>
+  </ul>
+</div>

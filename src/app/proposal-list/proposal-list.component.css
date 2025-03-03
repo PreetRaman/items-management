@@ -79,5 +79,11 @@ button:hover {
   color: white;
 }
 
-
+.icon {
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  vertical-align: text-bottom;
+  margin-right: 4px;
+}
 

@@ -14,8 +14,9 @@ The Proposal Management System is a web-based application built with Angular tha
 - **Real-Time Updates**: The proposal list is automatically updated whenever a proposal is accepted or rejected.
 
 ## Requirements
-- Angular CLI
-- npm (Node Package Manager)
+- Angular CLI(v 17.3.12)
+- npm (Node Package Manager)(v11.1.0)
+- node(v20.18.3)
 
 ## Setup Instructions
 
